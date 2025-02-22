@@ -1,3 +1,8 @@
+* {
+    font-weight: 700;
+    font-family: Roboto, sans-serif;
+}
+
 :root {
     --otc-headings-primary: #333333;
     --otc-text-primary: #3D3D3D;
@@ -11,7 +16,8 @@
     --otc-pink: #D0108E;
     --otc-green: #71C044;
     --otc-link-color: #154ae1;
-    --white: #ffffff
+    --white: #ffffff;
+    --error: rgb(255, 92, 92);
 }
 body {
     background-color: var(--otc-web-grey);
@@ -71,7 +77,7 @@ nav {
     height: 100%;
 }
 .selected {
-    background-color: #3D3D3D !important;
+    background-color: var(--otc-dark-blue) !important;
     box-shadow: none !important;
 }
 table { 
@@ -114,4 +120,27 @@ th:last-child, td:last-child {
     background-image: url('https://services.otc.edu/media/uploads/sites/19/sites/14/2019/03/favicon-otc2019.jpg');
     background-size: cover;
     border-radius: 10px;
+}
+
+.start {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.end {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#error {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 30%;
+    min-height: 10%;
+    color: var(--error);
+    display: inline-block;
+    text-align: center;
+    font-size: larger;
 }

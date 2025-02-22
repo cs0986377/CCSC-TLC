@@ -16,6 +16,10 @@ window.onload = async function() {
         updateCells()
         
     } catch (error) {
+        document.getElementById("error").innerText = "An error occured, please try again later"
+        Array.from(["selectBoxContainer", "calendarContainer"]).forEach(id => {
+            document.getElementById(id).remove()
+        })
         console.error('Failed to fetch schedule data:', error);
     }
 };
@@ -23,32 +27,6 @@ window.onload = async function() {
 var days = ["MON", "TUE", "WED", "THU", "FRI"];
 
 const calendar = document.getElementById("calendar");
-
-// for (let i = 7; i < 19; i++) {
-//     for (let j = 0; j < 2; j++) {
-//         //don't touch
-//         let timeLabel = `${i + 7 % 12 + 1}:${!j ? '00' : '30'} ${i + 8 > 12 ? "PM" : "AM"} - ${(i + 7 +(j ? 1 : 0)) % 12 + 1}:${j ? '00' : '30'} ${i + 9 > 12 ? "PM" : "AM"}`;
-//         let timeSlot = document.createElement("div");
-//         timeSlot.textContent = timeLabel;
-
-//         //every other line
-//         timeSlot.classList.add(j ? "highlight" : "not-highlighted")
-
-//         //every line
-//         calendar.appendChild(timeSlot);
-
-//         for (let d = 0; d < 5; d++) {
-//             let slot = document.createElement("div");
-//             //classes for calender slots
-//             slot.classList.add("time-slot", j ? "highlight" : "not-highlighted");
-//             //ID for calender slot
-//             slot.id = days[d] + "-" + (((i - 7) * 2 + j));
-//             calendar.appendChild(slot);
-//         }
-//     }
-// }
-
-
 
 function updateCells() {
 
@@ -73,6 +51,8 @@ function updateCells() {
             day.classList.toggle("selected", false)
         } else {
             var isSelected = false
+            var isStart = false
+            var isEnd = false
             
             var dayOfWeek = day.id.slice(1)
             var timeSlotId = day.id.substring(0,1);
@@ -87,6 +67,12 @@ function updateCells() {
             if (timeSlots) {
                 timeSlots.forEach(range => {
                     for (let i = range[0]; i <= range[1]; i++) {
+                        if(timeSlotId == range[0]) {
+                            isStart = true
+                        }
+                        if(timeSlotId == range[1]) {
+                            isEnd = true
+                        }
                         if (timeSlotId == i) {
                             isSelected = true
                         }
@@ -95,6 +81,8 @@ function updateCells() {
             }
 
             day.classList.toggle("selected", isSelected)
+            day.classList.toggle("start", isStart)
+            day.classList.toggle("end", isEnd)
         }
     });
 }
@@ -173,7 +161,7 @@ function CreateTable(){
                 time = i - 4;
             }
             var col = document.createElement('td');
-            //Gef did this...
+            //Geof did this...
             col.innerHTML = `${(i + 7) % 12 + 1}:${!j ? '00' : '30'} ${i + 8 > 12 ? "PM" : "AM"} - ${(i + 7 + (j ? 1 : 0)) % 12 + 1}:${j ? '00' : '30'} ${i + 9 > 12 ? "PM" : "AM"}`
             row.appendChild(col);
             var timeslots = []
