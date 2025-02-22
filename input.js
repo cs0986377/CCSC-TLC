@@ -11,7 +11,6 @@ window.onload = async function () {
 
         Object.assign(classes, apiData)
         populateFirstDropdown(classes)
-        updateCells()
         CreateTable()
 
     } catch (error) {
@@ -20,53 +19,6 @@ window.onload = async function () {
 };
 
 var days = ["MON", "TUE", "WED", "THU", "FRI"];
-function updateCells() {
-
-    //Get index from drop down
-
-    var tbody = document.getElementById("calendar").children[1];
-    var dayCells = [];
-    for (let tr = 0; tr < tbody.children.length; tr++) {
-        for (let td = 0; td < tbody.children[tr].children.length; td++) {
-            if (td != 0) {
-                dayCells.push(tbody.children[tr].children[td]);
-            }
-        }
-    }
-    var subject = document.getElementById("floatingSelect").value;
-    var classCode = document.getElementById("floatingSelect2").value;
-    var specificSchedule = classes[subject] && classes[subject][classCode]
-
-    dayCells.forEach(day => {
-        if (!specificSchedule) {
-            day.classList.toggle("selected", false)
-        } else {
-            var isSelected = false
-
-            var dayOfWeek = day.id.slice(1)
-            var timeSlotId = day.id.substring(0, 1);
-            if (day.id.length == 5) {
-                timeSlotId = day.id.substring(0, 2);
-                dayOfWeek = day.id.slice(2)
-            }
-
-            var timeSlots = specificSchedule[dayOfWeek]
-
-            if (timeSlots) {
-                timeSlots.forEach(range => {
-                    for (let i = range[0]; i <= range[1]; i++) {
-                        if (timeSlotId == i) {
-                            isSelected = true
-                        }
-                    }
-                });
-            }
-
-            day.classList.toggle("selected", isSelected)
-        }
-    });
-}
-
 document.getElementById("floatingSelect").addEventListener("change", () => {
     UpdateSecondDropdown(classes);
     updateCells();
